@@ -12,9 +12,9 @@ Here you can find the solution of all codingbat problem (java) => https://coding
 3. Import the project into eclipse
 4. I didn't add main method => To run the particuler method
 	
-	•	Write main method in the call
+	•	Write main method in the class
 	
-	•	Make the object of the call
+	•	Make the object of the class
 	
 	•	call the method using class object with appropriate parameters
 
