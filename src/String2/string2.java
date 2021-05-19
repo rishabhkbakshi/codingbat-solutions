@@ -253,20 +253,15 @@ public class string2 {
 	// xyzMiddle("AxyzBB") => true
 	// xyzMiddle("AxyzBBB") => false
 	public boolean xyzMiddle(String str) {
-		if (str.length() <= 3) {
-			return false;
-		}
-
-		int start1 = str.length() / 2 - 2;
-		int start2 = str.length() / 2 - 1;
-
-		if (str.length() % 2 == 0) {
-			if (str.substring(start1, start1 + 3).equals("xyz") || str.substring(start2, start2 + 3).equals("xyz")) {
+		int i = 0;
+		while (str.indexOf("xyz", i) != -1) {
+			i = str.indexOf("xyz", i);
+			if (str.substring(0, i).length() - str.substring(i + 3).length() <= 1) {
 				return true;
 			}
+			i++;
 		}
-
-		return str.substring(start2, start2 + 3).equals("xyz");
+		return false;
 	}
 
 	// A sandwich is two pieces of bread with something in between. Return the
@@ -359,22 +354,17 @@ public class string2 {
 	// starOut("ab**cd") => "ad"
 	// starOut("sm*eilly") => "silly"
 	public String starOut(String str) {
-		String result = "";
-
-		for (int i = 0; i <= str.length(); i++) {
-			if (i == 0 && str.charAt(i) != '*') {
-				result += str.charAt(i);
+		String finalStr = "";
+		for (int i = 0; i < str.length(); i++) {
+			if (str.charAt(i) == '*' || (i > 0 && str.charAt(i - 1) == '*')) {
+				continue;
 			}
-
-			if (i > 0 && str.charAt(i) != '*' && str.charAt(i - 1) != '*') {
-				result += str.charAt(i);
+			if (i < str.length() - 1 && str.charAt(i + 1) == '*') {
+				continue;
 			}
-
-			if (i > 0 && str.charAt(i) == '*' && str.charAt(i - 1) != '*') {
-				result = result.substring(0, result.length() - 1);
-			}
+			finalStr = finalStr + str.charAt(i);
 		}
-		return result;
+		return finalStr;
 	}
 
 	// Given a string and a non-empty word string, return a version of the
@@ -432,16 +422,16 @@ public class string2 {
 	// wordEnds("XY123XY", "XY") => "13"
 	// wordEnds("XY1XY", "XY") => "11"
 	public String wordEnds(String str, String word) {
-		int strlen = str.length();
-		int wordlen = word.length();
+		int slen = str.length();
+		int wlen = word.length();
 		String result = "";
-		for (int i = 0; i <= strlen - wordlen + 1; i++) {
-			String temp = str.substring(i, i + wordlen);
+		for (int i = 0; i < slen - wlen + 1; i++) {
+			String temp = str.substring(i, i + wlen);
 			if (i > 0 && temp.equals(word)) {
 				result = result + str.substring(i - 1, i);
 			}
-			if (i < strlen - wordlen && temp.equals(word)) {
-				result = result + str.substring(i + wordlen, i + wordlen + 1);
+			if (i < slen - wlen && temp.equals(word)) {
+				result = result + str.substring(i + wlen, i + wlen + 1);
 			}
 		}
 		return result;
