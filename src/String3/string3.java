@@ -44,7 +44,7 @@ public class string3 {
 		String lowbase = base.toLowerCase();
 		String lowrem = remove.toLowerCase();
 		String result = "";
-		for (int i = 0; i <= baseLen; i++) {
+		for (int i = 0; i < baseLen; i++) {
 			if (i <= baseLen - removelen) {
 				String temp1 = lowbase.substring(i, i + removelen);
 				if (!temp1.equals(lowrem)) {
@@ -164,14 +164,11 @@ public class string3 {
 	// sameEnds("xx") => "x"
 	// sameEnds("xxx") => "x"
 	public String sameEnds(String string) {
-		int len = string.length();
 		String result = "";
-		String temp = "";
-
-		for (int i = 0; i <= len; i++) {
-			temp = temp + string.charAt(i);
-			if (i < len / 2 && temp.equals(string.substring(len - temp.length(), len))) {
-				result = temp;
+		for (int i = 0; i <= string.length() / 2; i++) {
+			String temp = string.substring(string.length() - i, string.length());
+			if (string.substring(0, i).equals(temp)) {
+				result = string.substring(0, i);
 			}
 		}
 		return result;
@@ -188,17 +185,16 @@ public class string3 {
 	// mirrorEnds("abca") => "a"
 	// mirrorEnds("aba") => "aba"
 	public String mirrorEnds(String string) {
-		int len = string.length();
 		String result = "";
 		String temp1 = "";
 		String temp2 = "";
 
-		for (int i = 0; i <= len; i++) {
-			temp1 += string.substring(i, i + 1);
+		for (int i = 0; i < string.length(); i++) {
+			temp1 = temp1 + string.substring(i, i + 1);
 			temp2 = "";
 			for (int j = temp1.length() - 1; j >= 0; j--) {
-				temp2 += temp1.substring(j, j + 1);
-				if (temp2.equals(string.substring(len - i - 1, len))) {
+				temp2 = temp2 + temp1.substring(j, j + 1);
+				if (temp2.equals(string.substring(string.length() - i - 1, string.length()))) {
 					result = temp1;
 				}
 			}
@@ -268,16 +264,17 @@ public class string3 {
 	// notReplace("This is right") => "This is not right"
 	public String notReplace(String str) {
 		String result = "";
-		str = " " + str + "  ";
-		for (int i = 0; i < str.length() - 2; i++) {
-			if (str.substring(i, i + 2).equals("is") && !Character.isLetter(str.charAt(i - 1))
-					&& !Character.isLetter(str.charAt(i + 2))) {
+		for (int i = 0; i < str.length(); i++) {
+			if (i - 1 >= 0 && Character.isLetter(str.charAt(i - 1))
+					|| i + 2 < str.length() && Character.isLetter(str.charAt(i + 2))) {
+				result = result + str.charAt(i);
+			} else if (i + 1 < str.length() && str.substring(i, i + 2).equals("is")) {
 				result = result + "is not";
-				i = i + 1;
+				i++;
 			} else {
 				result = result + str.charAt(i);
 			}
 		}
-		return result.substring(1, result.length() - 1);
+		return result;
 	}
 }
