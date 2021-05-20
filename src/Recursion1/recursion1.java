@@ -10,7 +10,7 @@ public class recursion1 {
 	// factorial(2) => 2
 	// factorial(3) => 6
 	public int factorial(int n) {
-		if (n == 0) {
+		if (n == 1) {
 			return 1;
 		}
 		return n * factorial(n - 1);
@@ -45,7 +45,8 @@ public class recursion1 {
 	public int fibonacci(int n) {
 		if (n == 0) {
 			return 0;
-		} else if (n == 1) {
+		}
+		if (n == 1) {
 			return 1;
 		}
 		return fibonacci(n - 1) + fibonacci(n - 2);
@@ -65,14 +66,10 @@ public class recursion1 {
 		if (bunnies == 0) {
 			return 0;
 		}
-		int result = 0;
 		if (bunnies % 2 == 0) {
-			result = 3 + bunnyEars2(bunnies - 1);
+			return 3 + bunnyEars2(bunnies - 1);
 		}
-		if (bunnies % 2 == 1) {
-			result = 2 + bunnyEars2(bunnies - 1);
-		}
-		return result;
+		return 2 + bunnyEars2(bunnies - 1);
 	}
 
 	// We have triangle made of blocks. The topmost row has 1 block, the next
@@ -100,8 +97,8 @@ public class recursion1 {
 	// sumDigits(49) => 13
 	// sumDigits(12) => 3
 	public int sumDigits(int n) {
-		if (n / 10 == 0) {
-			return n;
+		if (n / 10 < 1) {
+			return n % 10;
 		}
 		return (n % 10) + sumDigits(n / 10);
 	}
@@ -116,16 +113,23 @@ public class recursion1 {
 	// count7(7) => 1
 	// count7(123) => 0
 	public int count7(int n) {
+		if (n == 0) {
+			return 0;
+		}
+		if (n % 10 == 7) {
+			return 1 + count7(n / 10);
+		}
+		return count7(n / 10);
 
 		// Iterative Way
-		int count = 0;
-		while (n > 0) {
-			if (n % 10 == 7) {
-				count++;
-			}
-			n = n / 10;
-		}
-		return count;
+//		int count = 0;
+//		while (n > 0) {
+//			if (n % 10 == 7) {
+//				count++;
+//			}
+//			n = n / 10;
+//		}
+//		return count;
 	}
 
 	// Given a non-negative int n, compute recursively (no loops) the count of
@@ -140,19 +144,31 @@ public class recursion1 {
 	// count8(8818) => 4
 	public int count8(int n) {
 
-		// Iterative Way
-		int count = 0;
-		while (n > 0) {
-			if (n % 10 == 8 && (n / 10) % 10 == 8) {
-				count = count + 2;
-			} else {
-				if (n % 10 == 8) {
-					count++;
-				}
-			}
-			n = n / 10;
+		if (n == 0) {
+			return 0;
 		}
-		return count;
+		if (n % 10 == 8 && (n / 10) % 10 == 8) {
+			return 2 + count8(n / 10);
+		} else {
+			if (n % 10 == 8) {
+				return 1 + count8(n / 10);
+			}
+		}
+		return count8(n / 10);
+
+		// Iterative Way
+//		int count = 0;
+//		while (n > 0) {
+//			if (n % 10 == 8 && (n / 10) % 10 == 8) {
+//				count = count + 2;
+//			} else {
+//				if (n % 10 == 8) {
+//					count++;
+//				}
+//			}
+//			n = n / 10;
+//		}
+//		return count;
 	}
 
 	// Given base and n that are both 1 or more, compute recursively (no loops)
@@ -163,14 +179,18 @@ public class recursion1 {
 	// powerN(3, 2) => 9
 	// powerN(3, 3) => 27
 	public int powerN(int base, int n) {
+		if (n == 1) {
+			return base;
+		}
+		return base * powerN(base, n - 1);
 
 		// Iterative Way
-		int result = 1;
-		while (n > 0) {
-			result = result * base;
-			n = n - 1;
-		}
-		return result;
+//		int result = 1;
+//		while (n > 0) {
+//			result = result * base;
+//			n = n - 1;
+//		}
+//		return result;
 	}
 
 	// Given a string, compute recursively (no loops) the number of lowercase
@@ -181,14 +201,21 @@ public class recursion1 {
 	// countX("xhixhix") => 3
 	// countX("hi") => 0
 	public int countX(String str) {
+		if (str.length() == 0) {
+			return 0;
+		}
+		if (str.indexOf("x") >= 0) {
+			return 1 + countX(str.substring(str.indexOf("x") + 1));
+		}
+		return countX(str.substring(1));
 
 		// Iterative Way
-		int count = 0;
-		while (str.indexOf("x") >= 0) {
-			count++;
-			str = str.substring(str.indexOf("x") + 1);
-		}
-		return count;
+//		int count = 0;
+//		while (str.indexOf("x") >= 0) {
+//			count++;
+//			str = str.substring(str.indexOf("x") + 1);
+//		}
+//		return count;
 	}
 
 	// Given a string, compute recursively (no loops) the number of times
@@ -199,14 +226,21 @@ public class recursion1 {
 	// countHi("xhixhix") => 2
 	// countHi("hi") => 1
 	public int countHi(String str) {
+		if (str.length() == 0) {
+			return 0;
+		}
+		if (str.indexOf("hi") >= 0) {
+			return 1 + countHi(str.substring(str.indexOf("hi") + 2));
+		}
+		return countHi(str.substring(str.indexOf("hi") + 2));
 
 		// Iterative Way
-		int count = 0;
-		while (str.indexOf("hi") >= 0) {
-			count++;
-			str = str.substring(str.indexOf("hi") + 2);
-		}
-		return count;
+//		int count = 0;
+//		while (str.indexOf("hi") >= 0) {
+//			count++;
+//			str = str.substring(str.indexOf("hi") + 2);
+//		}
+//		return count;
 	}
 
 	// Given a string, compute recursively (no loops) a new string where all the
@@ -217,19 +251,26 @@ public class recursion1 {
 	// changeXY("xxhixx") => "yyhiyy"
 	// changeXY("xhixhix") => "yhiyhiy"
 	public String changeXY(String str) {
+		if (str.length() == 0) {
+			return "";
+		}
+		if (str.charAt(0) == 'x') {
+			return "y" + changeXY(str.substring(1));
+		}
+		return str.charAt(0) + changeXY(str.substring(1));
 
 		// Iterative Way
-		String result = "";
-		int count = 0;
-		while (count < str.length()) {
-			if (str.charAt(count) == 'x') {
-				result = result + "y";
-			} else {
-				result = result + str.charAt(count);
-			}
-			count++;
-		}
-		return result;
+//		String result = "";
+//		int count = 0;
+//		while (count < str.length()) {
+//			if (str.charAt(count) == 'x') {
+//				result = result + "y";
+//			} else {
+//				result = result + str.charAt(count);
+//			}
+//			count++;
+//		}
+//		return result;
 	}
 
 	// Given a string, compute recursively (no loops) a new string where all
@@ -240,7 +281,13 @@ public class recursion1 {
 	// changePi("pipi") => "3.143.14"
 	// changePi("pip") => "3.14p"
 	public String changePi(String str) {
-
+		if (str.length() == 0) {
+			return "";
+		}
+		if (str.length() > 2 && str.substring(0, 2).equals("pi")) {
+			return "3.14" + changePi(str.substring(2));
+		}
+		return str.charAt(0) + changePi(str.substring(1));
 	}
 
 	// Given a string, compute recursively a new string where all the 'x' chars
@@ -252,16 +299,24 @@ public class recursion1 {
 	// noX("xx") => ""
 	public String noX(String str) {
 
-		// Iterative Way
-		String result = "";
-		int count = 0;
-		while (count < str.length()) {
-			if (str.charAt(count) != 'x') {
-				result = result + str.charAt(count);
-			}
-			count++;
+		if (str.length() == 0) {
+			return "";
 		}
-		return result;
+		if (str.charAt(0) != 'x') {
+			return str.charAt(0) + noX(str.substring(1));
+		}
+		return noX(str.substring(1));
+
+		// Iterative Way
+//		String result = "";
+//		int count = 0;
+//		while (count < str.length()) {
+//			if (str.charAt(count) != 'x') {
+//				result = result + str.charAt(count);
+//			}
+//			count++;
+//		}
+//		return result;
 	}
 
 	// Given an array of ints, compute recursively if the array contains a 6.
@@ -294,15 +349,22 @@ public class recursion1 {
 	// array11([11, 11], 0) => 2
 	// array11([1, 2, 3, 4], 0) => 0
 	public int array11(int[] nums, int index) {
+		if (index == nums.length) {
+			return 0;
+		}
+		if (nums[index] == 11) {
+			return 1 + array11(nums, index + 1);
+		}
+		return array11(nums, index + 1);
 
 		// Iterative Way
-		int count = 0;
-		while (index < nums.length) {
-			if (nums[index++] == 11) {
-				count++;
-			}
-		}
-		return count;
+//		int count = 0;
+//		while (index < nums.length) {
+//			if (nums[index++] == 11) {
+//				count++;
+//			}
+//		}
+//		return count;
 	}
 
 	// Given an array of ints, compute recursively if the array contains
@@ -317,7 +379,7 @@ public class recursion1 {
 	// array220([3], 0) => false
 	public boolean array220(int[] nums, int index) {
 
-		// Iterative Way
+		// // Iterative Way
 		boolean result = false;
 		while (index < nums.length - 1) {
 			if (nums[index] * 10 == nums[index + 1]) {
@@ -336,14 +398,18 @@ public class recursion1 {
 	// allStar("abc") => "a*b*c"
 	// allStar("ab") => "a*b"
 	public String allStar(String str) {
+		if (str.length() < 2) {
+			return str;
+		}
+		return str.charAt(0) + "*" + allStar(str.substring(1));
 
 		// Iterative Way
-		String result = "";
-		int count = 0;
-		while (count < str.length() - 1) {
-			result = result + str.charAt(count++) + "*";
-		}
-		return str.length() == 0 ? "" : (result + str.charAt(count));
+//		String result = "";
+//		int count = 0;
+//		while (count < str.length() - 1) {
+//			result = result + str.charAt(count++) + "*";
+//		}
+//		return str.length() == 0 ? "" : (result + str.charAt(count));
 	}
 
 	// Given a string, compute recursively a new string where identical chars
@@ -355,7 +421,13 @@ public class recursion1 {
 	// pairStar("xxyy") => "x*xy*y"
 	// pairStar("aaaa") => "a*a*a*a"
 	public String pairStar(String str) {
-
+		if (str.length() < 2) {
+			return str;
+		}
+		if (str.charAt(0) == str.charAt(1)) {
+			return str.charAt(0) + "*" + pairStar(str.substring(1));
+		}
+		return str.charAt(0) + pairStar(str.substring(1));
 	}
 
 	// Given a string, compute recursively a new string where all the lowercase
@@ -366,20 +438,27 @@ public class recursion1 {
 	// endX("xxhixx") => "hixxxx"
 	// endX("xhixhix") => "hihixxx"
 	public String endX(String str) {
-
-		// Iterative Way
-		String result = "";
-		String temp = "";
-		int index = 0;
-		while (index < str.length()) {
-			if (str.charAt(index) != 'x') {
-				result = result + str.charAt(index);
-			} else {
-				temp = temp + str.charAt(index);
-			}
-			index++;
+		if (str.length() == 0) {
+			return "";
 		}
-		return result + temp;
+		if (str.charAt(0) != 'x') {
+			return str.charAt(0) + endX(str.substring(1));
+		}
+		return endX(str.substring(1)) + "x";
+
+		// // Iterative Way
+		// String result = "";
+		// String temp = "";
+		// int index = 0;
+		// while (index < str.length()) {
+		// if (str.charAt(index) != 'x') {
+		// result = result + str.charAt(index);
+		// } else {
+		// temp = temp + str.charAt(index);
+		// }
+		// index++;
+		// }
+		// return result + temp;
 	}
 
 	// We'll say that a "pair" in a string is two instances of a char separated
@@ -392,7 +471,13 @@ public class recursion1 {
 	// countPairs("axax") => 2
 	// countPairs("axbx") => 1
 	public int countPairs(String str) {
-
+		if (str.length() == 0) {
+			return 0;
+		}
+		if (str.length() >= 3 && str.charAt(0) == str.charAt(2)) {
+			return 1 + countPairs(str.substring(1));
+		}
+		return countPairs(str.substring(1));
 	}
 
 	// Count recursively the total number of "abc" and "aba" substrings that
@@ -403,19 +488,27 @@ public class recursion1 {
 	// countAbc("abcxxabc") => 2
 	// countAbc("abaxxaba") => 2
 	public int countAbc(String str) {
-
-		// Iterative Way
-		int count = 0;
-		int result = 0;
-		while (count < str.length() - 2) {
-			if (str.substring(count, count + 3).equals("abc") || str.substring(count, count + 3).equals("aba")) {
-				result++;
-				count = count + 2;
-			} else {
-				count++;
-			}
+		if (str.length() < 3) {
+			return 0;
 		}
-		return result;
+		if (str.substring(0, 3).equals("abc") || str.substring(0, 3).equals("aba")) {
+			return 1 + countAbc(str.substring(1));
+		}
+		return countAbc(str.substring(1));
+
+		// // Iterative Way
+		// int count = 0;
+		// int result = 0;
+		// while (count < str.length() - 2) {
+		// if (str.substring(count, count + 3).equals("abc") ||
+		// str.substring(count, count + 3).equals("aba")) {
+		// result++;
+		// count = count + 2;
+		// } else {
+		// count++;
+		// }
+		// }
+		// return result;
 	}
 
 	// Given a string, compute recursively (no loops) the number of "11"
@@ -426,19 +519,26 @@ public class recursion1 {
 	// count11("abc11x11x11") => 3
 	// count11("111") => 1
 	public int count11(String str) {
-
-		// Iterative Way
-		int count11 = 0;
-		int result = 0;
-		while (count11 < str.length() - 1) {
-			if (str.substring(count11, count11 + 2).equals("11")) {
-				result++;
-				count11 = count11 + 2;
-			} else {
-				count11++;
-			}
+		if (str.length() < 2) {
+			return 0;
 		}
-		return result;
+		if (str.substring(0, 2).equals("11")) {
+			return 1 + count11(str.substring(2));
+		}
+		return count11(str.substring(1));
+
+		// // Iterative Way
+		// int count11 = 0;
+		// int result = 0;
+		// while (count11 < str.length() - 1) {
+		// if (str.substring(count11, count11 + 2).equals("11")) {
+		// result++;
+		// count11 = count11 + 2;
+		// } else {
+		// count11++;
+		// }
+		// }
+		// return result;
 	}
 
 	// Given a string, return recursively a "cleaned" string where adjacent
@@ -450,7 +550,13 @@ public class recursion1 {
 	// stringClean("abbbcdd") => "abcd"
 	// stringClean("Hello") => "Helo"
 	public String stringClean(String str) {
-
+		if (str.length() < 2) {
+			return str;
+		}
+		if (str.charAt(0) == str.charAt(1)) {
+			return str.charAt(0) + stringClean(str.substring(2));
+		}
+		return str.charAt(0) + stringClean(str.substring(1));
 	}
 
 	// Given a string, compute recursively the number of times lowercase "hi"
@@ -462,7 +568,18 @@ public class recursion1 {
 	// countHi2("ahibhi") => 2
 	// countHi2("xhixhi") => 0
 	public int countHi2(String str) {
-
+		if (str.length() < 2) {
+			return 0;
+		}
+		if (str.indexOf("hi") >= 0) {
+			if (str.substring(0, 2).equals("hi")) {
+				return 1 + countHi2(str.substring(str.indexOf("hi") + 2));
+			}
+			if (str.charAt(str.indexOf("hi") - 1) != 'x') {
+				return 1 + countHi2(str.substring(str.indexOf("hi") + 2));
+			}
+		}
+		return countHi2(str.substring(3));
 	}
 
 	// Given a string that contains a single pair of parenthesis, compute
@@ -475,19 +592,27 @@ public class recursion1 {
 	// parenBit("(xy)1") => "(xy)"
 	public String parenBit(String str) {
 
-		// Iterative Way
-		String result = "";
-		int count = 0;
-		while (count < str.length()) {
-			if (count >= str.indexOf('(')) {
-				result = result + str.charAt(count);
-				if (count == str.indexOf(')')) {
-					break;
-				}
-			}
-			count++;
+		if (str.length() == 0) {
+			return str;
 		}
-		return result;
+		if (str.charAt(0) == '(') {
+			return str.substring(0, str.indexOf(')') + 1) + parenBit(str.substring(str.indexOf(')')));
+		}
+		return parenBit(str.substring(1));
+
+		// // Iterative Way
+		// String result = "";
+		// int count = 0;
+		// while (count < str.length()) {
+		// if (count >= str.indexOf('(')) {
+		// result = result + str.charAt(count);
+		// if (count == str.indexOf(')')) {
+		// break;
+		// }
+		// }
+		// count++;
+		// }
+		// return result;
 	}
 
 	// Given a string, return true if it is a nesting of zero or more pairs of
@@ -500,19 +625,27 @@ public class recursion1 {
 	// nestParen("(((x))") => false
 	public boolean nestParen(String str) {
 
-		// Iterative Way
-		boolean result = false;
-		int count = 0;
-		while (str.length() % 2 == 0 && count < str.length() / 2) {
-			if (str.charAt(count) == '(' && str.charAt(str.length() - 1 - count) == ')') {
-				result = true;
-			} else {
-				result = false;
-				break;
-			}
-			count++;
+		if (str.length() == 0) {
+			return true;
 		}
-		return str.length() == 0 ? true : result;
+		if (str.charAt(0) == '(' && str.charAt(str.length() - 1) == ')') {
+			return nestParen(str.substring(1, str.length() - 1));
+		}
+		return false;
+
+		// Iterative Way
+//		boolean result = false;
+//		int count = 0;
+//		while (str.length() % 2 == 0 && count < str.length() / 2) {
+//			if (str.charAt(count) == '(' && str.charAt(str.length() - 1 - count) == ')') {
+//				result = true;
+//			} else {
+//				result = false;
+//				break;
+//			}
+//			count++;
+//		}
+//		return str.length() == 0 ? true : result;
 	}
 
 	// Given a string and a non-empty substring sub, compute recursively the
@@ -524,7 +657,13 @@ public class recursion1 {
 	// strCount("catcowcat", "cow") => 1
 	// strCount("catcowcat", "dog") => 0
 	public int strCount(String str, String sub) {
-
+		if (str.length() < sub.length()) {
+			return 0;
+		}
+		if (str.substring(0, sub.length()).equals(sub)) {
+			return 1 + strCount(str.substring(sub.length()), sub);
+		}
+		return strCount(str.substring(1), sub);
 	}
 
 	// Given a string and a non-empty substring sub, compute recursively if at
@@ -537,19 +676,30 @@ public class recursion1 {
 	// strCopies("catcowcat", "cow", 1) => true
 	public boolean strCopies(String str, String sub, int n) {
 
-		// Iterative Way
-		int count = 0;
-		int result = 0;
-		while (count < str.length() - sub.length() + 1) {
-			if (str.substring(count, count + sub.length()).equals(sub)) {
-				result++;
-			}
-			count++;
-		}
-		if (result == n) {
+		if (n == 0) {
 			return true;
 		}
-		return false;
+		if (str.length() < sub.length()) {
+			return false;
+		}
+		if (str.substring(0, sub.length()).equals(sub)) {
+			return strCopies(str.substring(1), sub, n - 1);
+		}
+		return strCopies(str.substring(1), sub, n);
+
+		// Iterative Way
+//		int count = 0;
+//		int result = 0;
+//		while (count < str.length() - sub.length() + 1) {
+//			if (str.substring(count, count + sub.length()).equals(sub)) {
+//				result++;
+//			}
+//			count++;
+//		}
+//		if (result == n) {
+//			return true;
+//		}
+//		return false;
 	}
 
 	// Given a string and a non-empty substring sub, compute recursively the
@@ -560,6 +710,15 @@ public class recursion1 {
 	// strDist("catcowcat", "cow") => 3
 	// strDist("cccatcowcatxx", "cat") => 9
 	public int strDist(String str, String sub) {
-
+		if(str.length() < sub.length()) {
+			return 0;
+		}
+		if(str.substring(0, sub.length()).equals(sub)) {
+			if(str.substring(str.length() - sub.length(), str.length()).equals(sub)) {
+				return str.length();
+			}
+			return strDist(str.substring(0, str.length() - 1), sub);
+		}
+		return strDist(str.substring(1), sub);
 	}
 }
