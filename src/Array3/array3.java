@@ -2,7 +2,8 @@ package Array3;
 
 public class array3 {
 
-	// Consider the leftmost and righmost appearances of some value in an array.
+	// Consider the leftmost and rightmost appearances of some value in an
+	// array.
 	// We'll say that the "span" is the number of elements between the two
 	// inclusive. A single value has a span of 1. Returns the largest span found
 	// in the given array. (Efficiency is not a priority.)
@@ -15,7 +16,7 @@ public class array3 {
 		int span = 0;
 		int temp = 0;
 
-		for (int i = 0; i <= nums.length; i++) {
+		for (int i = 0; i < nums.length; i++) {
 			for (int j = 0; j < nums.length; j++) {
 				if (nums[i] == nums[j]) {
 					temp = j - i + 1;
@@ -65,18 +66,12 @@ public class array3 {
 	public int[] fix45(int[] nums) {
 		for (int i = 0; i < nums.length; i++) {
 			if (nums[i] == 4) {
-				for (int j = 0; j <= nums.length; j++) {
+				for (int j = 0; j < nums.length; j++) {
 					if (nums[j] == 5) {
-						if (j > 0 && nums[j - 1] != 4) {
-							int temp = nums[i + 1];
+						if ((j > 0 && nums[j - 1] != 4) || (j == 0)) {
+							nums[j] = nums[i + 1];
 							nums[i + 1] = 5;
-							nums[j] = temp;
-						} else if (j == 0) {
-							int temp = nums[i + 1];
-							nums[i + 1] = 5;
-							nums[j] = temp;
 						}
-
 					}
 				}
 			}
@@ -93,15 +88,14 @@ public class array3 {
 	// canBalance([2, 1, 1, 2, 1]) => false
 	// canBalance([10, 10]) => true
 	public boolean canBalance(int[] nums) {
-		int lSum = 0;
-
-		for (int i = 0; i <= nums.length; i++) {
-			lSum = lSum + nums[i];
-			int rSum = 0;
+		int fir = 0;
+		for (int i = 0; i < nums.length; i++) {
+			fir = fir + nums[i];
+			int sec = 0;
 			for (int j = nums.length - 1; j > i; j--) {
-				rSum = rSum + nums[j];
+				sec = sec + nums[j];
 			}
-			if (rSum == lSum) {
+			if (sec == fir) {
 				return true;
 			}
 		}
@@ -145,8 +139,9 @@ public class array3 {
 			return arr;
 		}
 
-		for (int i = n - 1; i <= arr.length; i += n) {
-			for (int j = i; j >= i - i / n; j--) {
+		for (int i = n - 1; i < arr.length; i += 4) {
+			int temp = i - i / n;
+			for (int j = i; j >= temp; j--) {
 				arr[j] = i - j + 1;
 			}
 		}
@@ -188,18 +183,23 @@ public class array3 {
 	// maxMirror([1, 2, 1, 4]) => 3
 	// maxMirror([7, 1, 2, 9, 7, 2, 1]) => 2
 	public int maxMirror(int[] nums) {
+		int count = 0;
 		int max = 0;
-		for (int i = 0; i <= nums.length; i++) {
-			int count = 0;
-			for (int j = nums.length - 1; j >= 0 && i + count <= nums.length; j--) {
-				if (nums[i + count] == nums[j]) {
-					count++;
-				} else {
-					max = Math.max(max, count);
-					count = 0;
+		for (int i = 0; i < nums.length; i++) {
+			count = 0;
+			for (int j = nums.length - 1; j >= 0; j--) {
+				if (i + count < nums.length) {
+					if (nums[i + count] == nums[j]) {
+						count++;
+					} else {
+						if (count > 0) {
+							max = count > max ? count : max;
+							count = 0;
+						}
+					}
 				}
 			}
-			max = Math.max(max, count);
+			max = count > max ? count : max;
 		}
 		return max;
 	}
@@ -214,10 +214,12 @@ public class array3 {
 	public int countClumps(int[] nums) {
 		boolean match = false;
 		int count = 0;
-		for (int i = 0; i <= nums.length - 1; i++) {
-			if (nums[i] == nums[i + 1] && !match) {
-				match = true;
-				count++;
+		for (int i = 0; i < nums.length - 1; i++) {
+			if (nums[i] == nums[i + 1]) {
+				if (match == false) {
+					match = true;
+					count++;
+				}
 			} else if (nums[i] != nums[i + 1]) {
 				match = false;
 			}
