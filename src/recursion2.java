@@ -1,5 +1,4 @@
 
-
 public class recursion2 {
 
 	// Given an array of ints, is it possible to choose a group of some of the
@@ -17,7 +16,16 @@ public class recursion2 {
 	// groupSum(0, [2, 4, 8], 14) => true
 	// groupSum(0, [2, 4, 8], 9) => false
 	public boolean groupSum(int start, int[] nums, int target) {
-		
+		if (target == 0) {
+			return true;
+		}
+		if (start == nums.length) {
+			return false;
+		}
+		if (groupSum(start + 1, nums, target - nums[start])) {
+			return true;
+		}
+		return groupSum(start + 1, nums, target);
 	}
 
 	// Given an array of ints, is it possible to choose a group of some of the
@@ -30,7 +38,22 @@ public class recursion2 {
 	// groupSum6(0, [5, 6, 2], 9) => false
 	// groupSum6(0, [5, 6, 2], 7) => false
 	public boolean groupSum6(int start, int[] nums, int target) {
+		if (start >= nums.length) {
+			return target == 0;
+		}
+		if (nums[start] == 6) {
+			return groupSum6(start + 1, nums, target - 6);
+		}
 
+		if (groupSum6(start + 1, nums, target - nums[start])) {
+			return true;
+		}
+
+		if (groupSum6(start + 1, nums, target)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	// Given an array of ints, is it possible to choose a group of some of the
@@ -44,7 +67,19 @@ public class recursion2 {
 	// groupNoAdj(0, [2, 5, 10, 4], 14) => false
 	// groupNoAdj(0, [2, 5, 10, 4], 7) => false
 	public boolean groupNoAdj(int start, int[] nums, int target) {
+		if (start >= nums.length) {
+			return target == 0;
+		}
 
+		if (groupNoAdj(start + 2, nums, target - nums[start])) {
+			return true;
+		}
+
+		if (groupNoAdj(start + 1, nums, target)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	// Given an array of ints, is it possible to choose a group of some of the
@@ -58,7 +93,25 @@ public class recursion2 {
 	// groupSum5(0, [2, 5, 10, 4], 17) => true
 	// groupSum5(0, [2, 5, 10, 4], 12) => false
 	public boolean groupSum5(int start, int[] nums, int target) {
+		if (start >= nums.length) {
+			return target == 0;
+		}
 
+		if (nums[start] % 5 == 0) {
+			if (start <= nums.length - 2 && nums[start + 1] == 1) {
+				return groupSum5(start + 2, nums, target - nums[start]);
+			}
+			return groupSum5(start + 1, nums, target - nums[start]);
+		}
+
+		if (groupSum5(start + 1, nums, target - nums[start])) {
+			return true;
+		}
+
+		if (groupSum5(start + 1, nums, target)) {
+			return true;
+		}
+		return false;
 	}
 
 	// Given an array of ints, is it possible to choose a group of some of the
@@ -74,9 +127,28 @@ public class recursion2 {
 	// groupSumClump(0, [1, 2, 4, 8, 1], 14) => true
 	// groupSumClump(0, [2, 4, 4, 8], 14) => false
 	public boolean groupSumClump(int start, int[] nums, int target) {
+		if (start >= nums.length) {
+			return target == 0;
+		}
 
+		int i = start;
+		int sum = 0;
+
+		while (i < nums.length && nums[start] == nums[i]) {
+			sum += nums[i];
+			i++;
+		}
+
+		if (groupSumClump(i, nums, target - sum)) {
+			return true;
+		}
+		if (groupSumClump(i, nums, target)) {
+			return true;
+		}
+		return false;
 	}
 
+	// --------------------------------------------------------------------------------------------------//
 	// Given an array of ints, is it possible to divide the ints into two
 	// groups, so that the sums of the two groups are the same. Every int must
 	// be in one group or the other. Write a recursive helper method that takes
@@ -88,9 +160,24 @@ public class recursion2 {
 	// splitArray([2, 3]) => false
 	// splitArray([5, 2, 3]) => true
 	public boolean splitArray(int[] nums) {
-
+		return splitArrayHelper(0, nums, 0, 0);
 	}
 
+	public boolean splitArrayHelper(int start, int[] nums, int group1, int group2) {
+		if (start >= nums.length) {
+			return group1 == group2;
+		}
+		if (splitArrayHelper(start + 1, nums, group1 + nums[start], group2)) {
+			return true;
+		}
+
+		if (splitArrayHelper(start + 1, nums, group1, group2 + nums[start])) {
+			return true;
+		}
+		return false;
+	}
+	
+	//--------------------------------------------------------------------------------------------------//
 	// Given an array of ints, is it possible to divide the ints into two
 	// groups, so that the sum of one group is a multiple of 10, and the sum of
 	// the other group is odd. Every int must be in one group or the other.
@@ -103,9 +190,25 @@ public class recursion2 {
 	// splitOdd10([5, 5, 6]) => false
 	// splitOdd10([5, 5, 6, 1]) => true
 	public boolean splitOdd10(int[] nums) {
-
+		return splitOdd10Helper(0, nums, 0, 0);
 	}
 
+	public boolean splitOdd10Helper(int start, int[] nums, int mult, int odd) {
+		if (start >= nums.length) {
+			return mult % 10 == 0 && odd % 2 == 1;
+		}
+
+		if (splitOdd10Helper(start + 1, nums, mult + nums[start], odd)) {
+			return true;
+		}
+
+		if (splitOdd10Helper(start + 1, nums, mult, odd + nums[start])) {
+			return true;
+		}
+		return false;
+	}
+
+	//--------------------------------------------------------------------------------------------------//
 	// Given an array of ints, is it possible to divide the ints into two
 	// groups, so that the sum of the two groups is the same, with these
 	// constraints: all the values that are multiple of 5 must be in one group,
@@ -117,12 +220,22 @@ public class recursion2 {
 	// split53([1, 1, 1]) => false
 	// split53([2, 4, 2]) => true
 	public boolean split53(int[] nums) {
-
+		return split53Helper(nums, 0, 0);
 	}
-	
-	public static void main(String[] args) {
-		recursion2 recur = new recursion2();
-		int[] nums = {2, 4, 8};
-		System.out.println(recur.groupSum(0, nums, 10));
+
+	public boolean split53Helper(int[] nums, int i, int balance) {
+		if (i == nums.length) {
+			return (balance == 0);
+		}
+		if (nums[i] % 5 == 0) {
+			return split53Helper(nums, i + 1, balance + nums[i]);
+		}
+		if (nums[i] % 3 == 0) {
+			return split53Helper(nums, i + 1, balance - nums[i]);
+		}
+		if (split53Helper(nums, i + 1, balance + nums[i])) {
+			return true;
+		}
+		return split53Helper(nums, i + 1, balance - nums[i]);
 	}
 }
